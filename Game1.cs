@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Monogame_Spritesheets
 {
@@ -8,6 +9,18 @@ namespace Monogame_Spritesheets
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        Texture2D characterSpritesheet, rectangleTexture;
+        Rectangle window;
+
+        List<Rectangle> barrier;
+
+        int row, columns;
+        int frame; //Frame number (column) to be drawn
+        int frames; //Number of frames in each column
+        int directionRow; // Row # containing frames for current direction (up, down, left, right)
+
+
 
         public Game1()
         {
@@ -18,7 +31,10 @@ namespace Monogame_Spritesheets
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            window = new Rectangle(0, 0, 800, 500);
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -27,7 +43,8 @@ namespace Monogame_Spritesheets
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            characterSpritesheet = Content.Load<Texture2D>("Images/skeleton_spritesheet");
+            rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
         }
 
         protected override void Update(GameTime gameTime)
